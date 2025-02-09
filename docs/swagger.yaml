@@ -1,0 +1,70 @@
+basePath: /
+definitions:
+  models.Workshop:
+    properties:
+      address:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API de microservicio para gestión de workshops
+  title: Workshop API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      description: Retorna un mensaje que indica que el microservicio está en funcionamiento
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Verifica el estado del microservicio
+      tags:
+      - Health
+  /workshops:
+    get:
+      description: Devuelve una lista JSON con todos los Workshops existentes en la
+        base de datos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Workshop'
+            type: array
+      summary: Obtiene todos los Workshops
+      tags:
+      - Workshops
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo workshop y lo guarda en la base de datos
+      parameters:
+      - description: Datos del Workshop
+        in: body
+        name: workshop
+        required: true
+        schema:
+          $ref: '#/definitions/models.Workshop'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Workshop'
+      summary: Crea un nuevo workshop
+      tags:
+      - Workshops
+swagger: "2.0"

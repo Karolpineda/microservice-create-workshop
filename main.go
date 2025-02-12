@@ -40,5 +40,5 @@ func main() {
 	}
 
 	fmt.Printf("Servidor iniciado en puerto %s\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, cors(r))) // <--- Aplica el middleware aquí
+	log.Fatal(http.ListenAndServe(":"+port, cors(r))) // <--- Aplica el middleware aquí
 }

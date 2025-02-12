@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 
-	// Importar el paquete docs (para Swagger) y el godotenv
 	_ "microservicecreateworkshops/docs"
 	"microservicecreateworkshops/routes"
 
@@ -16,39 +15,30 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-// @title Workshop API
-// @version 1.0
-// @description API de microservicio para gestión de workshops
-// @BasePath /
+// @title... (tu swagger docs aquí)
 
 func main() {
-	// Cargar variables de entorno desde el archivo .env
 	err := godotenv.Load()
 	if err != nil {
-		log.Println("No se pudo cargar el archivo .env (o no existe).")
+		log.Println("Error cargando .env")
 	}
 
 	r := mux.NewRouter()
-
-	// Registrar rutas
 	routes.RegisterRoutes(r)
-
-	// Usar el handler de Swagger
 	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
-	// Configurar CORS
-	corsHandler := handlers.CORS(
-		handlers.AllowedOrigins([]string{"*"}),                                       // Permite todas las URLs (ajustar en producción)
-		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}), // Permitir estos métodos
-		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),           // Permitir estos headers
-		handlers.AllowCredentials(),
+	// Configuración CORS
+	cors := handlers.CORS(
+		handlers.AllowedOrigins([]string{"*"}), // En producción restringe esto
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
 	)
-	// Tomar el puerto desde la variable de entorno
+
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8097" // Valor por defecto si no existe en .env
+		port = "8097"
 	}
 
-	fmt.Printf("API listening on port %s\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, corsHandler(r))) // Aplica el middleware CORS
+	fmt.Printf("Servidor iniciado en puerto %s\n", port)
+	log.Fatal(http.ListenAndServe(":"+port, cors(r))) // <--- Aplica el middleware aquí
 }

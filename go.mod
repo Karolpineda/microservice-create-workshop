@@ -2,8 +2,6 @@ module microservicecreateworkshops
 
 go 1.22.0
 
-toolchain go1.23.6
-
 require (
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/handlers v1.5.2

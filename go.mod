@@ -12,7 +12,7 @@ require (
 	github.com/lib/pq v1.10.0
 	github.com/swaggo/http-swagger v1.3.4
 	github.com/swaggo/swag v1.16.4
-	github.com/gorilla/handlers v1.5.1
+	github.com/gorilla/handlers v1.5.2
 )
 
 require (
